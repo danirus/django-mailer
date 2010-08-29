@@ -87,7 +87,7 @@ class Message(models.Model):
         if self.message_data == "":
             return None
         else:
-            return pickle.loads(self.message_data.encode("ascii"))
+            return pickle.loads(self.message_data.encode("utf-8"))
     
     def _set_email(self, val):
         self.message_data = pickle.dumps(val)
@@ -138,6 +138,13 @@ def make_message(subject="", body="", from_email=None, to=None, bcc=None,
     """
     to = filter_recipient_list(to)
     bcc = filter_recipient_list(bcc)
+
+    if type(subject) == unicode:
+        subject = subject.encode('utf-8')
+
+    if type(body) == unicode:
+        body = body.encode('utf-8')
+
     core_msg = EmailMessage(subject=subject, body=body, from_email=from_email,
                             to=to, bcc=bcc, attachments=attachments, headers=headers)
     
@@ -220,7 +227,7 @@ class MessageLog(models.Model):
         if self.message_data == "":
             return None
         else:
-            return pickle.loads(self.message_data.encode("ascii"))
+            return pickle.loads(self.message_data.encode("utf-8"))
     
     @property
     def to_addresses(self):
