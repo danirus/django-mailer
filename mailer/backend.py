@@ -7,9 +7,18 @@ class DbBackend(BaseEmailBackend):
     
     def send_messages(self, email_messages):
         num_sent = 0
+
         for email in email_messages:
+
+            if type(email.subject) == unicode:
+                email.subject = email.subject.encode('utf-8')
+
+            if type(email.body) == unicode:
+                email.body = email.body.encode('utf-8')
+
             msg = Message()
             msg.email = email
             msg.save()
             num_sent += 1
+
         return num_sent
