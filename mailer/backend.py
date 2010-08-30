@@ -9,13 +9,8 @@ class DbBackend(BaseEmailBackend):
         num_sent = 0
 
         for email in email_messages:
-
-            if type(email.subject) == unicode:
-                email.subject = email.subject.encode('utf-8')
-
-            if type(email.body) == unicode:
-                email.body = email.body.encode('utf-8')
-
+            email.subject = email.subject.encode('utf-8')
+            email.body = email.body.encode('utf-8')
             msg = Message()
             msg.email = email
             msg.save()
